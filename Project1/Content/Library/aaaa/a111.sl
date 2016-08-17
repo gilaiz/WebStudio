@@ -13,5 +13,5 @@ extensions:
   graph:
     steps:
       GIL:
-        x: 269
-        y: 82
+        x: 196
+        y: 112
