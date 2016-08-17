@@ -17,16 +17,12 @@
 #! @output knife_result: filtered output of knife command
 #! @output raw_result: full STDOUT
 #! @output standard_err: any STDERR
-#! @result SUCCESS: node deleted OK
-#! @result FAILURE: otherwise
 #!!#
 ####################################################
 
 namespace: io.cloudslang.chef
-
 imports:
   ssh: io.cloudslang.base.ssh
-
 flow:
   name: delete_node
   inputs:
@@ -40,12 +36,11 @@ flow:
         required: false
     - knife_config:
         required: false
-
   workflow:
     - remove_client:
         do:
           knife_command:
-            - knife_cmd: ${'client delete ' + node_name + ' -y'}
+            - knife_cmd: "${'client delete ' + node_name + ' -y'}"
             - knife_host
             - knife_username
             - knife_password
@@ -55,11 +50,10 @@ flow:
           - raw_result
           - standard_err
           - knife_result
-
     - remove_node:
         do:
           knife_command:
-            - knife_cmd: ${'node delete ' + node_name + ' -y'}
+            - knife_cmd: "${'node delete ' + node_name + ' -y'}"
             - knife_host
             - knife_username
             - knife_password
@@ -69,8 +63,25 @@ flow:
           - raw_result
           - standard_err
           - knife_result
-
   outputs:
     - knife_result
     - raw_result
     - standard_err
+extensions:
+  graph:
+    steps:
+      remove_client:
+        x: 96
+        y: 125
+      remove_node:
+        x: 300
+        y: 100
+        navigate:
+          d757ef0d-fdfe-70f1-65b5-79de14f7ca58:
+            targetId: 22adc4a7-58b2-a089-3513-321aa032a9ab
+            port: SUCCESS
+    results:
+      SUCCESS:
+        22adc4a7-58b2-a089-3513-321aa032a9ab:
+          x: 500
+          y: 100
